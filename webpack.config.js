@@ -6,14 +6,11 @@ const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
 
 const PATHS = {
   src: path.join(__dirname, "src"),
-  dist: path.resolve(__dirname, "dist")
+  dist: path.resolve(__dirname, "dist"),
+  srcWindows: path.join(process.cwd(), 'src' , '*').replaceAll("\\","\\\\")
 };
 
-let diretorio = path.join( PATHS.src , '.html');
-
-console.log('diretorio', diretorio)
-
-glob(diretorio, null , function (err, files) {
+glob(PATHS.srcWindows, {nodir: true, windowsPathsNoEscape: true} , function (err, files) {
   if (err) {
     console.log('Ocorreu um erro', er);
   } else {
@@ -21,7 +18,7 @@ glob(diretorio, null , function (err, files) {
   }
 })
 
-/*
+
 module.exports = {
   entry: {
     index: "./src/index.js",
@@ -56,9 +53,7 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
     new PurgeCSSPlugin({
-       paths: () => glob.sync(`${PATHS.src}/**`, { nodir: true }),
+       paths: () => glob.sync(PATHS.srcWindows,{nodir: true, windowsPathsNoEscape: true}),
     }),
   ],
 };
-
-*/
