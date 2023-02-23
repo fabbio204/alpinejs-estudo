@@ -1,6 +1,27 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const glob = require("glob");
+const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
+
+const PATHS = {
+  src: path.join(__dirname, "src"),
+  dist: path.resolve(__dirname, "dist")
+};
+
+let diretorio = path.join( PATHS.src , '.html');
+
+console.log('diretorio', diretorio)
+
+glob(diretorio, null , function (err, files) {
+  if (err) {
+    console.log('Ocorreu um erro', er);
+  } else {
+    console.log('Arquivos encontrados', files);
+  }
+})
+
+/*
 module.exports = {
   entry: {
     index: "./src/index.js",
@@ -32,5 +53,12 @@ module.exports = {
     ],
   },
 
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [
+    new MiniCssExtractPlugin(),
+    new PurgeCSSPlugin({
+       paths: () => glob.sync(`${PATHS.src}/**`, { nodir: true }),
+    }),
+  ],
 };
+
+*/
